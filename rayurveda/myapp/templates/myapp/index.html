@@ -1,0 +1,40 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Home - Ramaneni Ayurveda{% endblock %}
+
+{% block content %}
+  <!-- Carousel Section -->
+  <div class="carousel-container">
+    <div class="carousel">
+      <!-- Carousel Items (Without Images) -->
+      <div class="carousel-item">
+        <div class="cart-controls">
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="cart-controls">
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="cart-controls">
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+  </div>
+
+  <!-- Product Cards Section (Without Images) -->
+  <div class="product-list">
+    {% for product in products %}
+      <div class="product-card">
+        <h2>{{ product.name }}</h2>
+        <p>Price: ₹{{ product.price }}</p>
+        <a href="{% url 'add_to_cart' product.id %}" class="btn">Add to Cart</a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

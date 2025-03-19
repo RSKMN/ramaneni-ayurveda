@@ -1,0 +1,57 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+
+{% block title %}Your Cart - Ramaneni Ayurveda{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-center mb-4">🛒 Your Cart</h1>
+  
+  <div class="card shadow p-4">
+    {% if cart_items %}
+      <table class="table table-bordered table-hover text-center">
+        <thead class="thead-dark">
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+            <tr>
+              <td class="align-middle">{{ item.product.name }}</td>
+              <td class="align-middle">₹{{ item.product.price }}</td>
+              <td class="align-middle">
+                <form method="post" action="{% url 'update_cart' item.product.id %}" class="d-inline">
+                  {% csrf_token %}
+                  <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control d-inline w-50">
+                  <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                </form>
+              </td>
+              <td class="align-middle">₹{{ item.total_price }}</td>
+              <td class="align-middle">
+                <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-danger">❌ Remove</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="text-right mt-4">
+        <h3><strong>Total: ₹{{ cart_total }}</strong></h3>
+        <form method="post" action="#">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success btn-lg mt-3">✅ Place Order</button>
+        </form>
+      </div>
+    {% else %}
+      <div class="text-center">
+        <p class="lead">🛍️ Your cart is empty.</p>
+        <a href="{% url 'home' %}" class="btn btn-outline-primary">Continue Shopping</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
